@@ -12,7 +12,12 @@ import android.view.View;
 
 import com.example.corey.smelly.ElectronicNose;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+
+import java.net.InetAddress;
+import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Main";
@@ -33,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                         */
-
 
                 ElectronicNose enose = new ElectronicNose("98:76:B6:00:6A:BA");
 
@@ -60,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, String.format("Collected %d samples", td.size()));
 
                 enose.disconnect();
+
+
+                //Now lets try to connect to the server
+
+                CloudNose cn = new CloudNose(td);
+                Thread t = new Thread(cn);
+                t.start();
             }
         });
 
