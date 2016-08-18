@@ -1,6 +1,13 @@
 package com.example.corey.smelly;
 
+import android.app.ActionBar;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.ViewSwitcher;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,8 +24,9 @@ import java.util.ArrayList;
 /**
  * Created by corey on 2015-10-17.
  */
-public class CloudNose implements Runnable {
+public class CloudNose  extends MainActivity implements Runnable{
 
+    private volatile String Result = "";
     private static final String TAG = "CloudNose";
 
     private BufferedWriter out = null;
@@ -26,6 +34,9 @@ public class CloudNose implements Runnable {
 
     private ArrayList<String> dataSet = null;
 
+
+
+// collected data is stored in this array list
     public CloudNose(ArrayList<String> d) {
         dataSet = new ArrayList<String>();
 
@@ -35,10 +46,12 @@ public class CloudNose implements Runnable {
     }
 
     @Override
+    // thread that connects and communicates with the server
     public void run() {
-        String host = "192.168.20.106";
+        String host = "10.0.1.2";
         InetAddress addr = null;
         Socket s = null;
+
 
         Log.d(TAG, "run()");
 
@@ -118,13 +131,18 @@ public class CloudNose implements Runnable {
                     r = in.readLine();
                     Log.d(TAG, String.format("got [%s] from server", r));
 
-                    if(r.contains("result:"))
+                    if(r.contains("class="))
                     {
-                        // Here we should do something with the result
+
                         // Like showing the user a picture of fruit...
                         Log.d(TAG, "got our result from the server");
                         Log.d(TAG, r);
+                            Result = r;
+                      //  if(r.equals("class=3(Lemon)")){
+                        //   image.setImageResource(R.drawable.ic_launcher_web);
+                       // }
                         break;
+
                     }
                 }
                 else {
@@ -143,5 +161,9 @@ public class CloudNose implements Runnable {
         }
 
         Log.d(TAG, "finish run()");
+    }
+    public String getResult(){
+
+        return Result;
     }
 }

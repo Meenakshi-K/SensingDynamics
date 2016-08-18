@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by Corey on 2015-10-14.
- */
+// Class that connects to the sensor and collects the data
 public class ElectronicNose {
     private static final String TAG = "Enose";
     private static final UUID ez = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); //Standard //SerialPortService ID
